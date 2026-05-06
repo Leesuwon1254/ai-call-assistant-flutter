@@ -59,25 +59,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _pickAndUpload() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['mp3', 'm4a', 'wav'],
-    );
-    if (result == null || result.files.single.path == null) return;
-
-    setState(() => _isUploading = true);
-    _addLog('업로드 중: ${result.files.single.name}');
-
+    _addLog('파일 선택 시작...');
     try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+      );
+      if (result == null || result.files.single.path == null) {
+        _addLog('파일 선택 취소됨');
+        return;
+      }
+      setState(() => _isUploading = true);
+      _addLog('업로드 중: ${result.files.single.name}');
       final success = await UploadService.uploadFile(result.files.single.path!);
       if (success) {
-        _addLog('업로드 완료! 분석 결과 확인 중...');
+        _addLog('업로드 완료!');
         _webViewController.loadRequest(Uri.parse('$kServerUrl/customers'));
       } else {
-        _addLog('업로드 실패');
+        _addLog('업로드 실패 - 서버 오류');
       }
     } catch (e) {
-      _addLog('오류: $e');
+      _addLog('오류 발생: $e');
     } finally {
       setState(() => _isUploading = false);
     }
