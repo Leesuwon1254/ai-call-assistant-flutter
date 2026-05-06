@@ -55,6 +55,9 @@ void _onStart(ServiceInstance service) async {
       '/storage/emulated/0/PhoneRecord',
       '/storage/emulated/0/Record/PhoneRecord',
       '/storage/emulated/0/Music/Recordings',
+      '/storage/emulated/0/Call',
+      '/storage/emulated/0/Recordings',
+      '/storage/emulated/0/Samsung/Recorder',
     ];
 
     for (final folderPath in folders) {
