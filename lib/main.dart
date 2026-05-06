@@ -61,7 +61,9 @@ class _PermissionGateState extends State<PermissionGate> {
     await [
       Permission.phone,
       Permission.storage,
+      Permission.audio,
       Permission.notification,
+      Permission.manageExternalStorage,
     ].request();
     setState(() => _checked = true);
   }
